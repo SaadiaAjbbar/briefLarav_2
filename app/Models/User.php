@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
+
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
@@ -21,6 +22,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role'
     ];
 
     /**
@@ -44,5 +46,25 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function classe()
+    {
+        return $this->belongsTo(Classe::class);
+    }
+
+    public function evaluations()
+    {
+        return $this->hasMany(Evaluation::class, 'etudiant_id');
+    }
+
+    public function briefs()
+    {
+        return $this->belongsToMany(Brief::class, 'brief_etudiant');
+    }
+
+    public function classesFormateur()
+    {
+        return $this->belongsToMany(Classe::class, 'classe_formateur');
     }
 }
